@@ -77,6 +77,16 @@ def validate_format_ip_address(validator, fieldname, value, format_option):
         raise FieldValidationError("Value %(value)r of field '%(fieldname)s' is "
                               "not a ip-address" % locals(), fieldname, value)
 
+def validate_format_mac_address(validator, fieldname, value, format_option):
+    try:
+        pattern = r'^([0-9a-fA-F]{2}[:-]){5}([0-9a-fA-F]{2})$'
+        mac_address = re.match(pattern, value)
+    except:
+        mac_address = False
+        
+    if not mac_address:
+        raise FieldValidationError("Value %(value)r of field '%(fieldname)s' is "
+                              "not a mac-address" % locals(), fieldname, value)    
 
 DEFAULT_FORMAT_VALIDATORS = {
     'date-time': validate_format_date_time,
@@ -84,6 +94,7 @@ DEFAULT_FORMAT_VALIDATORS = {
     'time': validate_format_time,
     'utc-millisec': validate_format_utc_millisec,
     'ip-address': validate_format_ip_address,
+    'mac-address': validate_format_mac_address,
 }
 
 
